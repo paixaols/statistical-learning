@@ -1,4 +1,5 @@
-from .base import BaseClassifier, distance
+from .base import BaseClassifier
+from ..metrics import distance
 
 
 class KNNClassifier(BaseClassifier):
@@ -17,7 +18,7 @@ class KNNClassifier(BaseClassifier):
             p = X.iloc[i]
 
             # Calcular a distância entre o ponto sem rótulo e todos os pontos com rótulo
-            d = distance(self.X_train, p)
+            d = distance.array_point(self.X_train, p)
 
             # Encontrar os K pontos rotulados mais próximos
             aux = self.X_train.copy()
