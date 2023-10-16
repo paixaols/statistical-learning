@@ -67,15 +67,26 @@ class KMeans(object):
                 break
 
             centers = new_centers.copy()
-        self.centers = centers
+        self.centers = new_centers.copy()
 
         labels = []
         for p in X:
-            d = distance.array_point(centers, p, metric='euclidean')
+            d = distance.array_point(self.centers, p, metric='euclidean')
             closest = d.argmin()
             labels.append(closest)
         self.labels = np.array(labels)
 
         self.is_fit = True
+
+        # Avaliação da métrica WSS - Within Cluster Sum of Squares
+        self.wss = {}
+        self.wss_total = 0
+        for i in range(self.centers.shape[0]):
+            center = self.centers[i]
+            cluster = clusters[i]
+            d = distance.array_point(cluster, center)
+            sum_squares = np.sum(d**2)
+            self.wss[i] = sum_squares
+            self.wss_total += sum_squares
 
         return self.labels
